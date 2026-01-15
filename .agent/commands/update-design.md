@@ -1,11 +1,11 @@
-会話の内容から，プロジェクトの設計・実装方針を `.claude/docs/DESIGN.md` に記録・更新してください．
+会話の内容から，プロジェクトの設計・実装方針を `.agent/docs/DESIGN.md` に記録・更新してください．
 
 Note: This command explicitly invokes the same workflow as the `design-tracker` skill.
 Use this when you want to force a design document update.
 
 ## Workflow
 
-1. Read existing `.claude/docs/DESIGN.md`
+1. Read existing `.agent/docs/DESIGN.md`
 2. Extract decisions/information from the conversation
 3. Update the appropriate section
 4. Add entry to Changelog with today's date

@@ -7,7 +7,7 @@ description: PROACTIVELY track and document project design decisions without bei
 
 ## Purpose
 
-This skill manages the project's design documentation (`.claude/docs/DESIGN.md`). It automatically tracks:
+This skill manages the project's design documentation (`.agent/docs/DESIGN.md`). It automatically tracks:
 - Architecture decisions
 - Implementation plans
 - Library choices and their rationale

@@ -1,0 +1,35 @@
+# Codex CLI Configuration
+# https://developers.openai.com/codex/config-reference/
+
+# Default model
+model = "codex"
+
+# Approval policy: "untrusted", "on-failure", "on-request", "never"
+approval_policy = "on-request"
+
+# Sandbox mode: "read-only", "workspace-write", "danger-full-access"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+# Allow network access for package installation, etc.
+network_access = true
+# Exclude temporary directories from sandbox
+exclude_tmpdir_env_var = false
+exclude_slash_tmp = false
+
+# Additional writable paths (if needed)
+# writable_roots = ["/path/to/dir"]
+
+# Feature flags
+[features]
+hierarchical_agents = true
+
+# Profiles for different use cases
+[profiles.review]
+model = "codex"
+approval_policy = "on-request"
+
+[profiles.auto]
+model = "codex"
+approval_policy = "on-failure"
+sandbox_mode = "workspace-write"

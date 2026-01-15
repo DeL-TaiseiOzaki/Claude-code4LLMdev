@@ -34,4 +34,4 @@ $ARGUMENTS について調査し，`docs/libraries/` にドキュメントを作
 
 ## 出力先
 
-`.claude/docs/libraries/$ARGUMENTS.md`
+`.agent/docs/libraries/$ARGUMENTS.md`
