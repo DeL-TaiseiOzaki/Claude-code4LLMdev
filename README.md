@@ -14,26 +14,27 @@ git clone --depth 1 https://github.com/DeL-TaiseiOzaki/Claude-code4LLMdev.git .c
 # 3. 必要なファイルをコピー
 cp -r .claude-starter/.agent .
 cp -r .claude-starter/.claude .
-cp .claude-starter/CLAUDE.md .
+cp .claude-starter/AGENTS.md .
+cp -P .claude-starter/CLAUDE.md .  # シンボリックリンクを保持
 
 # 4. クローンしたディレクトリを削除
 rm -rf .claude-starter
 
 # 5. コミット
-git add .agent .claude CLAUDE.md
+git add .agent .claude AGENTS.md CLAUDE.md
 git commit -m "Add Claude Code configuration"
 ```
 
 **ワンライナー版:**
 ```bash
 git clone --depth 1 https://github.com/DeL-TaiseiOzaki/Claude-code4LLMdev.git .claude-starter && \
-cp -r .claude-starter/.agent .claude-starter/.claude .claude-starter/CLAUDE.md . && \
-rm -rf .claude-starter
+cp -r .claude-starter/.agent .claude-starter/.claude .claude-starter/AGENTS.md . && \
+cp -P .claude-starter/CLAUDE.md . && rm -rf .claude-starter
 ```
 
 ## 導入後にやること
 
-1. **`CLAUDE.md` を編集** - プロジェクト固有の情報を記入
+1. **`AGENTS.md` を編集** - プロジェクト固有の情報を記入（CLAUDE.md は symlink）
 2. **`.claude/settings.json` を確認** - 必要に応じて権限を調整
 3. **Claude Code を起動** - `claude` コマンドで開始
 
@@ -53,7 +54,8 @@ rm -rf .claude-starter
 ├── settings.json          # 権限設定
 └── agents/                # サブエージェント
 
-CLAUDE.md                  # プロジェクトメモリ
+AGENTS.md                  # プロジェクトメモリ（実体）
+CLAUDE.md -> AGENTS.md     # シンボリックリンク
 ```
 
 ### サブエージェント
@@ -102,7 +104,7 @@ cp -r .claude-starter/.codex .  # Codex CLI 設定も追加する場合
 
 ## カスタマイズ
 
-### CLAUDE.md
+### AGENTS.md（= CLAUDE.md）
 
 プロジェクト固有のルールを記載します:
 
