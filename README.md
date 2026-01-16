@@ -21,16 +21,28 @@ cp -P .claude-starter/CLAUDE.md .  # シンボリックリンクを保持
 # 4. クローンしたディレクトリを削除
 rm -rf .claude-starter
 
-# 5. コミット
-git add .agent .claude .codex AGENTS.md CLAUDE.md
-git commit -m "Add Claude Code configuration"
+# 5. .gitignore に追加（ローカル設定として使う場合）
+cat >> .gitignore << 'EOF'
+
+# Claude Code / Codex CLI (local config)
+.agent/
+.claude/
+.codex/
+AGENTS.md
+CLAUDE.md
+EOF
+
+# 6. または、チームで共有する場合はコミット
+# git add .agent .claude .codex AGENTS.md CLAUDE.md
+# git commit -m "Add Claude Code configuration"
 ```
 
-**ワンライナー版:**
+**ワンライナー版（.gitignore に追加）:**
 ```bash
 git clone --depth 1 https://github.com/DeL-TaiseiOzaki/Claude-code4LLMdev.git .claude-starter && \
 cp -r .claude-starter/.agent .claude-starter/.claude .claude-starter/.codex .claude-starter/AGENTS.md . && \
-cp -P .claude-starter/CLAUDE.md . && rm -rf .claude-starter
+cp -P .claude-starter/CLAUDE.md . && rm -rf .claude-starter && \
+echo -e "\n# Claude Code / Codex CLI\n.agent/\n.claude/\n.codex/\nAGENTS.md\nCLAUDE.md" >> .gitignore
 ```
 
 ## 導入後にやること
