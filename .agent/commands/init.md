@@ -82,14 +82,16 @@ Claude Code と Codex CLI の両方で利用可能です。
 | `/update-design` | 会話から設計ドキュメントを更新 |
 | `/update-lib-docs` | ライブラリドキュメントを最新化 |
 
-#### Codex CLI コマンド
+#### Codex CLI プロンプト
+
+> 使用するには `~/.codex/prompts/` へコピーが必要
 
 | コマンド | 用途 |
 |---------|------|
-| `/analyze <topic>` | 問題を深く分析し、選択肢とトレードオフを整理 |
-| `/review-architecture <path>` | アーキテクチャをレビュー、懸念点と推奨事項を提示 |
-| `/consult <question>` | Claude Code からの相談に回答 |
-| `/update-design` | 設計判断を整理して記録 |
+| `/prompts:analyze <topic>` | 問題を深く分析し、選択肢とトレードオフを整理 |
+| `/prompts:review-architecture <path>` | アーキテクチャをレビュー、懸念点と推奨事項を提示 |
+| `/prompts:consult <question>` | Claude Code からの相談に回答 |
+| `/prompts:update-design` | 設計判断を整理して記録 |
 
 ### Rules（常時適用）
 
