@@ -47,7 +47,7 @@ Claude Code と Codex CLI の両方で利用可能です。
 | **design-tracker** | 設計決定の記録 | 「記録して」「アーキテクチャ」 |
 | **mcp-builder** | MCPサーバー開発ガイド | 「MCPサーバーを作りたい」 |
 | **skill-creator** | 新規スキル作成 | 「スキルを作りたい」 |
-| **codex-auto** | [任意] 大規模タスクをCodexに自律委譲 | 10+ファイル、「Codexに任せて」 |
+| **codex-system** | 複雑なタスクを Codex CLI (System 2) に委譲 | 「深く考えて」「second opinion」 |
 
 ### Commands（明示的呼び出し）
 

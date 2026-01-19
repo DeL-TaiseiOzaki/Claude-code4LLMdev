@@ -94,7 +94,7 @@ CLAUDE.md -> AGENTS.md     # シンボリックリンク
 | **design-tracker** | 設計決定を自動で `DESIGN.md` に記録 |
 | **mcp-builder** | MCP サーバー開発をガイド |
 | **skill-creator** | 新規スキル作成をガイド |
-| **codex-auto** | 大規模タスクを Codex CLI に自動委譲（任意） |
+| **codex-system** | 複雑なタスクを Codex CLI (System 2) に委譲 |
 
 ## 権限設定
 
