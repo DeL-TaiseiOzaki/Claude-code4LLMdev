@@ -1,46 +1,76 @@
 ---
 name: codex-system
 description: |
-  Delegate tasks to Codex CLI (System 2) for deep analysis, complex reasoning,
-  or second opinions. Triggers on: architecture decisions, algorithm optimization,
-  persistent bugs (2+ failed attempts), security review, performance analysis,
-  multi-file refactoring, or explicit requests like "think deeper", "analyze this",
-  "second opinion", "consult codex".
+  PROACTIVELY delegate to Codex CLI (System 2) for analysis and reasoning.
+  You are System 1 (fast executor) - Codex is System 2 (deep thinker).
+  ALWAYS consult Codex BEFORE making decisions on: design choices, implementation
+  approaches, debugging strategies, refactoring plans, or any non-trivial problem.
+  When uncertain, delegate. Err on the side of consulting Codex.
+  Explicit triggers: "think deeper", "analyze", "second opinion", "consult codex".
 metadata:
   short-description: Claude Code ↔ Codex CLI System 2 collaboration
 ---
 
-# Codex System — Claude Code の System 2
+# Codex System — System 2 for Claude Code
 
-Claude Code（System 1: 即応・実行）と Codex CLI（System 2: 深い思考・分析）の協調システム．
+**CRITICAL: You (Claude Code) are System 1. Codex CLI is System 2.**
 
-## 委譲条件（自動トリガー）
+- **System 1 (You)**: Fast response, execution, simple tasks
+- **System 2 (Codex)**: Deep thinking, analysis, complex reasoning
 
-以下の条件のいずれかを満たす場合，Codex に委譲する：
+**Default behavior: When in doubt, consult Codex FIRST.**
 
-### 1. 明示的リクエスト
-- `think deeper`, `analyze this`, `second opinion` などのキーワード
-- `consult codex`, `ask codex`, `codex で考えて` など直接指示
+## MUST Delegate (Required)
 
-### 2. 複雑度ベース
-- アーキテクチャ決定が必要（新規コンポーネント設計，依存関係変更）
-- 10+ ファイルに影響する変更
-- 複雑なアルゴリズム設計・最適化（O(n²) 以上）
-- 深くネストした条件分岐（3+ レベル）
+Always delegate to Codex in these situations:
 
-### 3. 失敗ベース
-- 同じ問題を 2 回以上試行しても解決しない
-- テストが繰り返し失敗
-- エラーの根本原因が不明
+### 1. Before Any Design Decision
+- "How should I structure this?"
+- "Which approach is better?"
+- "What's the best way to implement X?"
+- Any architectural choice → **ASK CODEX FIRST**
 
-### 4. 品質・セキュリティ
-- セキュリティに関わる変更（認証，認可，暗号化）
-- パフォーマンスクリティカルな処理
-- 本番環境に影響するリファクタリング
+### 2. Before Complex Implementation
+- New feature design
+- Multi-file changes (3+ files)
+- Algorithm design
+- API design
+- Database schema changes
 
-## 実行方法
+### 3. When Debugging
+- Error cause is not immediately obvious
+- First fix attempt didn't work → **STOP and consult Codex**
+- Unexpected behavior
 
-### 基本形式
+### 4. When Planning
+- Task requires multiple steps
+- Multiple approaches are possible
+- Trade-offs need to be evaluated
+
+### 5. Explicit Triggers
+- User says: "think deeper", "analyze", "second opinion", "consult codex"
+- User says: "考えて", "分析して", "深く考えて", "codexに聞いて"
+
+## SHOULD Delegate (Recommended)
+
+Strongly consider delegating for:
+
+- Security-related code
+- Performance optimization
+- Refactoring existing code
+- Code review / quality check
+- Library selection
+- Error handling strategy
+
+## Quick Delegation Rule
+
+**If you pause to think "hmm, how should I do this?" → DELEGATE TO CODEX**
+
+Don't spend time analyzing yourself. Let Codex do the deep thinking.
+
+## Execution Method
+
+### Basic Format
 
 ```bash
 codex exec \
@@ -50,7 +80,7 @@ codex exec \
   "{prompt}" 2>/dev/null
 ```
 
-### reasoning effort を指定
+### Specifying Reasoning Effort
 
 ```bash
 codex exec \
@@ -61,39 +91,39 @@ codex exec \
   "{prompt}" 2>/dev/null
 ```
 
-### セッション継続
+### Session Continuation
 
 ```bash
-# 最後のセッションを継続
+# Continue last session
 codex exec resume --last "{follow_up_prompt}" 2>/dev/null
 
-# 特定のセッションを継続
+# Continue specific session
 codex exec resume {SESSION_ID} "{follow_up_prompt}" 2>/dev/null
 ```
 
-## Agent 種別
+## Agent Types
 
-タスク内容に応じて以下の役割で Codex を活用：
+Use Codex with these roles depending on task content:
 
-| Agent | 用途 | reasoning_effort |
-|-------|------|------------------|
-| Architect | アーキテクチャ設計・レビュー | high |
-| Analyzer | 深い問題分析・デバッグ | high |
-| Optimizer | パフォーマンス・アルゴリズム最適化 | xhigh |
-| Security | セキュリティ監査 | xhigh |
+| Agent | Purpose | reasoning_effort |
+|-------|---------|------------------|
+| Architect | Architecture design & review | high |
+| Analyzer | Deep problem analysis & debugging | high |
+| Optimizer | Performance & algorithm optimization | xhigh |
+| Security | Security audit | xhigh |
 
-## プロンプト構築
+## Prompt Construction
 
-Codex への委譲時は以下の情報を含める：
+When delegating to Codex, include:
 
-1. **目的**: 何を達成したいか
-2. **コンテキスト**: 関連ファイル，現在の状態
-3. **制約**: 守るべきルール，使用可能な技術
-4. **過去の試行**（失敗ベースの場合）: 何を試して何が失敗したか
+1. **Purpose**: What to achieve
+2. **Context**: Related files, current state
+3. **Constraints**: Rules to follow, available technologies
+4. **Past Attempts** (for failure-based): What was tried, what failed
 
-## 注意事項
+## Notes
 
-- `2>/dev/null` で thinking tokens を抑制（コンテキスト節約）
-- `--full-auto` は CI/Claude Code 環境で必須
-- `--skip-git-repo-check` は Git 管理外ディレクトリでのみ使用
-- セッション ID を記録して継続実行を活用
+- `2>/dev/null` suppresses thinking tokens (saves context)
+- `--full-auto` required in CI/Claude Code environment
+- `--skip-git-repo-check` only for non-Git directories
+- Record session ID to enable continuation
