@@ -39,11 +39,17 @@ Ask yourself: "Am I about to make a non-trivial decision?"
 
 ```bash
 codex exec \
-  --model gpt-5-codex \
+  --model gpt-5.2-codex \
   --sandbox read-only \
   --full-auto \
-  "Question or analysis request" 2>/dev/null
+  "Question or analysis request in English" 2>/dev/null
 ```
+
+**Language protocol:**
+1. Ask Codex in **English**
+2. Receive response in **English**
+3. Execute based on Codex's advice
+4. Report to user in **Japanese**
 
 ## Why Consult Codex?
 

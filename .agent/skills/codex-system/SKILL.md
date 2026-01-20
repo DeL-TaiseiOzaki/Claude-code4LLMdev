@@ -83,26 +83,22 @@ Codex will provide better analysis than you can do alone. Don't hesitate to ask.
 
 ## Execution Method
 
-### Basic Format
+### Standard Format
 
 ```bash
 codex exec \
-  --model gpt-5-codex \
+  --model gpt-5.2-codex \
   --sandbox read-only \
   --full-auto \
-  "{prompt}" 2>/dev/null
+  "{prompt_in_english}" 2>/dev/null
 ```
 
-### Specifying Reasoning Effort
+### Language Protocol
 
-```bash
-codex exec \
-  --model gpt-5-codex \
-  --config model_reasoning_effort="high" \
-  --sandbox read-only \
-  --full-auto \
-  "{prompt}" 2>/dev/null
-```
+1. **Ask Codex in English** - Write prompts in English
+2. **Receive response in English** - Codex replies in English
+3. **Execute** - Work based on Codex's advice
+4. **Report to user in Japanese** - Summarize results for the user
 
 ### Session Continuation
 

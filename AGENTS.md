@@ -60,8 +60,10 @@ Agents that execute specialized tasks in independent context:
 - When uncertain about anything → Just ask Codex
 
 ```bash
-codex exec --model gpt-5-codex --sandbox read-only --full-auto "your question" 2>/dev/null
+codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "your question in English" 2>/dev/null
 ```
+
+**Note:** Ask Codex in English → Receive English response → Report to user in Japanese
 
 ### Commands (Explicit Invocation)
 
