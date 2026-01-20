@@ -26,15 +26,22 @@ Run `codex exec` when you encounter these situations:
 | 「〜を作りたい」「〜を実装して」 | "I want to build X" "Implement X" | Consult Codex for design first |
 | 「考えて」「分析して」「深く考えて」 | "Think about this" "Analyze" | Consult Codex |
 
-### How to Consult
+### How to Consult (Background Execution)
+
+**Always run Codex in background for parallel work:**
 
 ```bash
-# Analysis only (read-only)
-codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "Analyze: {question in English}" 2>/dev/null
+# Analysis (read-only) - run with run_in_background: true
+codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "Analyze: {question}" 2>/dev/null
 
-# Delegate work (can write files)
-codex exec --model gpt-5.2-codex --sandbox workspace-write --full-auto "Task: {task description in English}" 2>/dev/null
+# Work delegation (can write) - run with run_in_background: true
+codex exec --model gpt-5.2-codex --sandbox workspace-write --full-auto "Task: {description}" 2>/dev/null
 ```
+
+**Workflow:**
+1. Start Codex in background → Get task_id
+2. Continue your own work → Don't wait
+3. Retrieve results with `TaskOutput` when needed
 
 **Language protocol:**
 1. Ask Codex in **English**

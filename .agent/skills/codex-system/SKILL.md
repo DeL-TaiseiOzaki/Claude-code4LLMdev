@@ -83,45 +83,51 @@ Codex will provide better analysis than you can do alone. Don't hesitate to ask.
 
 ## Execution Method
 
-Choose the appropriate mode based on what you need from Codex:
+**CRITICAL: Always run Codex in background for parallel execution.**
 
-### Analysis Only (Read-Only)
+### Workflow
 
-Use when you need Codex to analyze, review, or advise:
-
-```bash
-codex exec \
-  --model gpt-5.2-codex \
-  --sandbox read-only \
-  --full-auto \
-  "Analyze: {question in English}" 2>/dev/null
+```
+1. Start Codex (background)  →  You get task_id
+2. Continue your own work    →  Don't wait
+3. Check results when needed →  Use TaskOutput
 ```
 
-**Use cases:** Design review, debugging analysis, trade-off evaluation, architecture advice
+### Step 1: Start Codex in Background
 
-### Delegate Work (Can Write Files)
+Use Bash tool with `run_in_background: true`:
 
-Use when you want Codex to actually implement or fix something:
-
+**Analysis (read-only):**
 ```bash
-codex exec \
-  --model gpt-5.2-codex \
-  --sandbox workspace-write \
-  --full-auto \
-  "Task: {task description in English}" 2>/dev/null
+codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "Analyze: {question}" 2>/dev/null
 ```
 
-**Use cases:** Implement feature, fix bug, refactor code, write tests
+**Work delegation (can write):**
+```bash
+codex exec --model gpt-5.2-codex --sandbox workspace-write --full-auto "Task: {description}" 2>/dev/null
+```
 
-### Decision Guide
+### Step 2: Continue Your Work
 
-| Need | Mode | Sandbox |
-|------|------|---------|
-| "How should I design this?" | Analysis | read-only |
-| "What's causing this bug?" | Analysis | read-only |
-| "Implement this feature" | Work | workspace-write |
-| "Fix this bug" | Work | workspace-write |
-| "Refactor this code" | Work | workspace-write |
+While Codex processes in background, you can:
+- Edit other files
+- Run tests or linting
+- Answer user questions
+- Work on independent tasks
+
+### Step 3: Retrieve Results
+
+Use `TaskOutput` tool with the task_id to get Codex's response.
+
+### Mode Selection
+
+| Need | Sandbox | Example |
+|------|---------|---------|
+| Design review | `read-only` | "Analyze: How should I structure this module?" |
+| Debug analysis | `read-only` | "Analyze: What's causing this error?" |
+| Implement feature | `workspace-write` | "Task: Implement user authentication" |
+| Fix bug | `workspace-write` | "Task: Fix the null pointer exception in X" |
+| Refactor | `workspace-write` | "Task: Refactor this function for clarity" |
 
 ### Language Protocol
 
@@ -129,16 +135,6 @@ codex exec \
 2. **Receive response in English** - Codex replies in English
 3. **Execute or verify** - Work based on Codex's advice, or verify Codex's work
 4. **Report to user in Japanese** - Summarize results for the user
-
-### Session Continuation
-
-```bash
-# Continue last session
-codex exec resume --last "{follow_up_prompt}" 2>/dev/null
-
-# Continue specific session
-codex exec resume {SESSION_ID} "{follow_up_prompt}" 2>/dev/null
-```
 
 ## Prompt Construction
 
