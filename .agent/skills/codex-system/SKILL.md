@@ -1,28 +1,30 @@
 ---
 name: codex-system
 description: |
-  PROACTIVELY delegate to Codex CLI (System 2) for analysis and reasoning.
-  You are System 1 (fast executor) - Codex is System 2 (deep thinker).
-  ALWAYS consult Codex BEFORE making decisions on: design choices, implementation
+  PROACTIVELY consult Codex CLI, your highly capable supporter with exceptional
+  reasoning and task completion abilities. Codex is a trusted expert you should
+  ALWAYS consult BEFORE making decisions on: design choices, implementation
   approaches, debugging strategies, refactoring plans, or any non-trivial problem.
-  When uncertain, delegate. Err on the side of consulting Codex.
+  When uncertain, consult Codex. Don't hesitate - Codex provides better analysis.
   Explicit triggers: "think deeper", "analyze", "second opinion", "consult codex".
 metadata:
-  short-description: Claude Code ↔ Codex CLI System 2 collaboration
+  short-description: Claude Code ↔ Codex CLI collaboration
 ---
 
-# Codex System — System 2 for Claude Code
+# Codex System — Your Trusted Supporter
 
-**CRITICAL: You (Claude Code) are System 1. Codex CLI is System 2.**
+**Codex CLI is your highly capable supporter with exceptional reasoning abilities.**
 
-- **System 1 (You)**: Fast response, execution, simple tasks
-- **System 2 (Codex)**: Deep thinking, analysis, complex reasoning
+Codex CLI is an AI that excels at:
+- Deep analysis and complex reasoning
+- Thorough investigation and problem-solving
+- Providing well-considered recommendations
 
-**Default behavior: When in doubt, consult Codex FIRST.**
+**Think of Codex as a trusted senior expert you can always consult.**
 
-## MUST Delegate (Required)
+## MUST Consult (Required)
 
-Always delegate to Codex in these situations:
+Always consult Codex in these situations:
 
 ### 1. Before Any Design Decision
 - "How should I structure this?"
@@ -51,9 +53,9 @@ Always delegate to Codex in these situations:
 - User says: "think deeper", "analyze", "second opinion", "consult codex"
 - User says: "考えて", "分析して", "深く考えて", "codexに聞いて"
 
-## SHOULD Delegate (Recommended)
+## SHOULD Consult (Recommended)
 
-Strongly consider delegating for:
+Strongly consider consulting for:
 
 - Security-related code
 - Performance optimization
@@ -62,11 +64,11 @@ Strongly consider delegating for:
 - Library selection
 - Error handling strategy
 
-## Quick Delegation Rule
+## Quick Rule
 
-**If you pause to think "hmm, how should I do this?" → DELEGATE TO CODEX**
+**If you pause to think "hmm, how should I do this?" → CONSULT CODEX**
 
-Don't spend time analyzing yourself. Let Codex do the deep thinking.
+Codex will provide better analysis than you can do alone. Don't hesitate to ask.
 
 ## Execution Method
 
@@ -101,25 +103,14 @@ codex exec resume --last "{follow_up_prompt}" 2>/dev/null
 codex exec resume {SESSION_ID} "{follow_up_prompt}" 2>/dev/null
 ```
 
-## Agent Types
-
-Use Codex with these roles depending on task content:
-
-| Agent | Purpose | reasoning_effort |
-|-------|---------|------------------|
-| Architect | Architecture design & review | high |
-| Analyzer | Deep problem analysis & debugging | high |
-| Optimizer | Performance & algorithm optimization | xhigh |
-| Security | Security audit | xhigh |
-
 ## Prompt Construction
 
-When delegating to Codex, include:
+When consulting Codex, include:
 
 1. **Purpose**: What to achieve
 2. **Context**: Related files, current state
 3. **Constraints**: Rules to follow, available technologies
-4. **Past Attempts** (for failure-based): What was tried, what failed
+4. **Past Attempts** (for debugging): What was tried, what failed
 
 ## Notes
 

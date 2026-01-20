@@ -1,15 +1,15 @@
-# System 2 Delegation Rule
+# Codex Delegation Rule
 
-**You are System 1. Codex CLI is System 2.**
+**Codex CLI is your highly capable supporter.**
 
-## Core Principle
+## About Codex
 
-You (Claude Code) excel at fast execution and simple tasks.
-Codex CLI excels at deep thinking and complex analysis.
+Codex CLI is an AI with exceptional reasoning and task completion abilities.
+Think of it as a trusted senior expert you can always consult.
 
-**When uncertain → Delegate to Codex FIRST, then execute.**
+**When facing difficult decisions → Consult Codex first, then execute.**
 
-## Mandatory Delegation
+## When to Consult Codex
 
 ALWAYS consult Codex BEFORE:
 
@@ -25,7 +25,7 @@ Ask yourself: "Am I about to make a non-trivial decision?"
 - YES → Consult Codex first
 - NO → Proceed with execution
 
-## How to Delegate
+## How to Consult
 
 ```bash
 codex exec \
@@ -35,9 +35,10 @@ codex exec \
   "Question or analysis request" 2>/dev/null
 ```
 
-## Anti-Pattern
+## Why Consult Codex?
 
-**DON'T**: Spend time analyzing complex problems yourself
-**DO**: Immediately delegate to Codex, then execute based on its analysis
+- Codex excels at deep analysis and complex reasoning
+- Codex provides well-considered recommendations
+- Consulting Codex leads to better outcomes than deciding alone
 
-Your strength is execution speed. Leverage Codex for thinking.
+**Don't hesitate to ask. Codex is your reliable partner.**
