@@ -18,6 +18,18 @@ ALWAYS consult Codex BEFORE:
 3. **Implementation planning** - Multi-step tasks, multiple approaches
 4. **Trade-off evaluation** - Choosing between options
 
+### Trigger Phrases (User Input)
+
+Consult Codex when user says:
+
+| Japanese | English |
+|----------|---------|
+| 「どう設計すべき？」「どう実装する？」 | "How should I design/implement?" |
+| 「なぜ動かない？」「原因は？」「エラーが出る」 | "Why doesn't this work?" "Error" |
+| 「どちらがいい？」「比較して」「トレードオフは？」 | "Which is better?" "Compare" |
+| 「〜を作りたい」「〜を実装して」 | "Build X" "Implement X" |
+| 「考えて」「分析して」「深く考えて」 | "Think" "Analyze" "Think deeper" |
+
 ## When NOT to Consult Codex
 
 Skip Codex for simple, straightforward tasks:

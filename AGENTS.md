@@ -8,6 +8,49 @@ LLM/Agent Development Project
 - **Code**: English (variable names, function names, comments, docstrings)
 - **User Communication**: Japanese
 
+---
+
+## Codex CLI Integration (CRITICAL)
+
+**Codex CLI is your highly capable supporter. Consult it proactively.**
+
+### When You MUST Consult Codex
+
+Run `codex exec` when you encounter these situations:
+
+| User Says (Japanese) | User Says (English) | Action |
+|---------------------|---------------------|--------|
+| 「どう設計すべき？」「どう実装する？」 | "How should I design/implement this?" | Consult Codex |
+| 「なぜ動かない？」「原因は？」 | "Why doesn't this work?" | Consult Codex |
+| 「どちらがいい？」「比較して」 | "Which is better?" "Compare these" | Consult Codex |
+| 「〜を作りたい」「〜を実装して」 | "I want to build X" "Implement X" | Consult Codex for design first |
+| 「考えて」「分析して」「深く考えて」 | "Think about this" "Analyze" | Consult Codex |
+
+### How to Consult
+
+```bash
+# Analysis only (read-only)
+codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "Analyze: {question in English}" 2>/dev/null
+
+# Delegate work (can write files)
+codex exec --model gpt-5.2-codex --sandbox workspace-write --full-auto "Task: {task description in English}" 2>/dev/null
+```
+
+**Language protocol:**
+1. Ask Codex in **English**
+2. Receive response in **English**
+3. Execute based on Codex's advice (or let Codex execute)
+4. Report to user in **Japanese**
+
+### When NOT to Consult
+
+- Simple file edits, typo fixes
+- Following explicit user instructions
+- git commit, running tests, linting
+- Tasks with obvious single solutions
+
+---
+
 ## Tech Stack
 
 - **Language**: Python
@@ -50,24 +93,7 @@ Agents that execute specialized tasks in independent context:
 | **mcp-builder** | When building MCP servers or external API integrations | `/mcp-builder` |
 | **skill-creator** | When creating new skills | `/skill-creator` |
 
-#### Codex System (Most Important)
-
-**Codex CLI is your highly capable supporter.** Use it proactively:
-
-- Before implementing new features → Consult Codex for design
-- When debugging fails once → Stop and consult Codex
-- When multiple approaches exist → Ask Codex to evaluate trade-offs
-- When uncertain about anything → Just ask Codex
-
-```bash
-# Analysis only (read-only)
-codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "Analyze: your question" 2>/dev/null
-
-# Delegate work (can write files)
-codex exec --model gpt-5.2-codex --sandbox workspace-write --full-auto "Task: implement X" 2>/dev/null
-```
-
-**Note:** Ask Codex in English → Receive English response → Report to user in Japanese
+> **Note:** Codex System details are in the "Codex CLI Integration" section above.
 
 ### Commands (Explicit Invocation)
 
