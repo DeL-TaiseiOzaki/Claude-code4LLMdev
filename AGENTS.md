@@ -79,7 +79,6 @@ Agents that execute specialized tasks in independent context:
 |-------|---------|------------------|
 | **code-reviewer** | Review after code changes | "review this", "check this" |
 | **lib-researcher** | Library research & docs | "research this library" |
-| **debugger** | Error investigation & fix | "fix this error", "debug this" |
 | **refactorer** | Refactoring | "simplify this", "clean up" |
 
 ### Skills (Use Proactively)
@@ -90,16 +89,12 @@ Agents that execute specialized tasks in independent context:
 |-------|-------------|---------------|
 | **codex-system** | **ALWAYS** before design decisions, debugging, planning, trade-off evaluation | `/codex-system` or run `codex exec ...` |
 | **design-tracker** | When design/architecture decisions are made in conversation | `/design-tracker` |
-| **mcp-builder** | When building MCP servers or external API integrations | `/mcp-builder` |
-| **skill-creator** | When creating new skills | `/skill-creator` |
 
 > **Note:** Codex System details are in the "Codex CLI Integration" section above.
 
 ### Commands (Explicit Invocation)
 
 Invoke with `/command`:
-
-#### Claude Code Commands
 
 | Command | Purpose |
 |---------|---------|
@@ -110,17 +105,6 @@ Invoke with `/command`:
 | `/simplify <path>` | Simplify/refactor specified code |
 | `/update-design` | Update design docs from conversation |
 | `/update-lib-docs` | Update library documentation |
-
-#### Codex CLI Prompts
-
-> **Note**: Requires `cp .codex/prompts/*.md ~/.codex/prompts/` to user level
-
-| Command | Purpose |
-|---------|---------|
-| `/prompts:analyze <topic>` | Deep analysis with options & trade-offs |
-| `/prompts:review-architecture <path>` | Architecture review with recommendations |
-| `/prompts:consult <question>` | Answer consultations from Claude Code |
-| `/prompts:update-design` | Organize & record design decisions |
 
 ### Rules (Always Applied)
 
@@ -189,7 +173,7 @@ After recording, report briefly like "Recorded in DESIGN.md".
 ## Directory Structure
 
 ```
-.claude/                   # Claude Code (System 1) settings & knowledge
+.claude/                   # Claude Code settings & knowledge
 ├── settings.json          # Permission settings
 ├── agents/                # Sub-agents
 ├── rules/                 # Always-applied rules
@@ -210,9 +194,8 @@ After recording, report briefly like "Recorded in DESIGN.md".
 ├── skills/                # Auto-trigger skills
 └── docs -> ../.claude/docs   # Link to knowledge base
 
-.codex/                    # Codex CLI (System 2) settings
-├── skills -> ../.agent/skills  # Shared skills
-└── prompts/               # Custom prompts (copy to ~/.codex/prompts/)
+.codex/                    # Codex CLI settings
+└── skills -> ../.agent/skills  # Shared skills
 
 src/                       # Source code
 tests/                     # Tests
