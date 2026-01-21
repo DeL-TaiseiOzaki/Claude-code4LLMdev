@@ -10,6 +10,30 @@ LLM/Agent Development Project
 
 ---
 
+## For Codex CLI (Read This First)
+
+**If you are Codex CLI, follow these instructions BEFORE doing anything else.**
+
+### Mandatory: Load Context First
+
+At the start of EVERY task, you MUST use the `context-loader` skill to load project context:
+
+1. **Invoke `$context-loader`** - This loads coding rules and design decisions from `.claude/`
+2. **Wait for context to load** - Understand the project's rules and constraints
+3. **Then proceed with the task** - Follow the loaded rules strictly
+
+### What context-loader Provides
+
+- **Coding rules** from `.claude/rules/` (simplicity, type hints, security, etc.)
+- **Design decisions** from `.claude/docs/DESIGN.md`
+- **Library constraints** from `.claude/docs/libraries/`
+
+### Why This Matters
+
+You are called by Claude Code to handle complex analysis and design decisions. Claude Code already knows the project context. By loading context first, you ensure consistency between your recommendations and Claude Code's execution.
+
+---
+
 ## Codex CLI Integration (CRITICAL)
 
 **Codex CLI is your highly capable supporter. Consult it proactively.**
