@@ -1,10 +1,28 @@
 {
   "$schema": "https://code.claude.com/schemas/settings.json",
   "hooks": {
-    "PreToolCall": [
+    "PreToolUse": [
       {
         "matcher": "Edit|Write",
-        "command": "echo '[Codex Check] Is this a design decision or complex implementation? If yes, did you consult Codex first?'"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-codex-before-write.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-codex-after-plan.py\"",
+            "timeout": 10
+          }
+        ]
       }
     ]
   },

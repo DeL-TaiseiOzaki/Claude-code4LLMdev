@@ -1,7 +1,15 @@
+---
+name: update-design
+description: Explicitly update DESIGN.md with decisions from the current conversation. Use when you want to force a design document update.
+disable-model-invocation: true
+---
+
+# Update Design Document
+
 Record/update project design and implementation decisions in `.claude/docs/DESIGN.md` based on conversation content.
 
-Note: This command explicitly invokes the same workflow as the `design-tracker` skill.
-Use this when you want to force a design document update.
+> **Note**: This skill explicitly invokes the same workflow as the `design-tracker` skill.
+> Use this when you want to force a design document update.
 
 ## Workflow
 
@@ -10,7 +18,7 @@ Use this when you want to force a design document update.
 3. Update the appropriate section
 4. Add entry to Changelog with today's date
 
-## Sections
+## Section Mapping
 
 | Topic | Section |
 |-------|---------|
@@ -21,6 +29,31 @@ Use this when you want to force a design document update.
 | Decision rationale | Implementation Plan > Key Decisions |
 | Future work | TODO |
 | Unresolved issues | Open Questions |
+
+## Update Format
+
+When updating, add to the appropriate section:
+
+```markdown
+### Key Decisions
+
+#### {Decision Title} ({Date})
+
+**Context**: {Why this decision was needed}
+**Decision**: {What was decided}
+**Rationale**: {Why this option was chosen}
+```
+
+## Changelog Entry
+
+Always add to Changelog:
+
+```markdown
+## Changelog
+
+### {Date}
+- {Brief description of what was recorded}
+```
 
 ## Language
 

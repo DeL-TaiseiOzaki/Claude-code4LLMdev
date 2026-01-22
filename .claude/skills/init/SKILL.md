@@ -1,3 +1,11 @@
+---
+name: init
+description: Analyze project structure and update AGENTS.md with detected tech stack, commands, and configurations.
+disable-model-invocation: true
+---
+
+# Initialize Project Configuration
+
 Analyze this project and update **only the project-specific sections** of AGENTS.md.
 
 ## Important

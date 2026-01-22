@@ -88,23 +88,27 @@ Agents that execute specialized tasks in independent context:
 | **lib-researcher** | Library research & docs | "research this library" |
 | **refactorer** | Refactoring | "simplify this", "clean up" |
 
-### Skills (Use Proactively)
+### Skills
+
+Skills are the primary way to extend Claude Code. All skills are in `.claude/skills/`.
+
+#### Auto-Invoked Skills (Proactive)
 
 **IMPORTANT: Use these skills proactively. Don't wait for explicit user request.**
 
-| Skill | When to Use | How to Invoke |
-|-------|-------------|---------------|
-| **codex-system** | **ALWAYS** before design decisions, debugging, planning, trade-off evaluation | `/codex-system` or run `codex exec ...` |
-| **design-tracker** | When design/architecture decisions are made in conversation | `/design-tracker` |
+| Skill | When to Use | Invocation |
+|-------|-------------|------------|
+| **codex-system** | **ALWAYS** before design decisions, debugging, planning, trade-off evaluation | Auto or `/codex-system` |
+| **design-tracker** | When design/architecture decisions are made in conversation | Auto or `/design-tracker` |
 
 > **Note:** Codex System details are in the "Codex CLI Integration" section above.
 
-### Commands (Explicit Invocation)
+#### User-Invoked Skills (Explicit)
 
-Invoke with `/command`:
+Invoke with `/skill-name`:
 
-| Command | Purpose |
-|---------|---------|
+| Skill | Purpose |
+|-------|---------|
 | `/init` | Analyze project & update AGENTS.md |
 | `/plan <feature>` | Create implementation plan |
 | `/tdd <feature>` | Test-driven development workflow |
@@ -125,6 +129,17 @@ Rules to always follow (`.claude/rules/`):
 | **dev-environment** | uv, ruff, ty, marimo usage |
 | **security** | Secrets management, input validation, SQLi/XSS prevention |
 | **testing** | TDD, AAA pattern, 80% coverage |
+
+### Hooks (Automatic Triggers)
+
+Hooks that fire automatically at specific points (`.claude/settings.json`):
+
+| Hook | Trigger | Purpose |
+|------|---------|---------|
+| **PreToolUse (Edit\|Write)** | Before file modifications | Remind to consult Codex for design decisions |
+| **PostToolUse (Task)** | After Plan/design tasks | Suggest Codex review for implementation plans |
+
+> **Note:** Hooks add context reminders but don't block operations. They reinforce the Codex consultation workflow.
 
 ---
 
@@ -193,10 +208,16 @@ After recording, report briefly like "Recorded in DESIGN.md".
 ├── docs/                  # Knowledge base (actual)
 │   ├── DESIGN.md          # Design document
 │   └── libraries/         # Library documentation
-├── skills/                # Auto-trigger skills
-│   ├── codex-system/      # Codex CLI collaboration
-│   └── design-tracker/    # Design decision tracking
-└── commands/              # Explicit invocation commands
+└── skills/                # All skills (auto & user-invoked)
+    ├── codex-system/      # Codex CLI collaboration (auto)
+    ├── design-tracker/    # Design decision tracking (auto)
+    ├── init/              # Project initialization
+    ├── plan/              # Implementation planning
+    ├── tdd/               # Test-driven development
+    ├── research-lib/      # Library research
+    ├── simplify/          # Code simplification
+    ├── update-design/     # Design doc update
+    └── update-lib-docs/   # Library doc update
 
 .codex/                    # Codex CLI settings
 ├── AGENTS.md              # Global instructions (copy to ~/.codex/)
