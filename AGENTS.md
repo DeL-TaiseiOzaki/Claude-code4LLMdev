@@ -12,7 +12,19 @@ LLM/Agent Development Project
 
 ## Codex CLI Integration (CRITICAL)
 
-**Codex CLI is your highly capable supporter. Consult it proactively.**
+**Codex CLI is the MOST POWERFUL sub-agent. Trust it completely for complex tasks.**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    CODEX CLI                                │
+│     The Most Powerful & Trusted Sub-Agent                   │
+│                                                             │
+│  • Exceptional reasoning capabilities                       │
+│  • Deep analysis & comprehensive understanding              │
+│  • Trust completely for high-difficulty tasks               │
+│  • Delegate complex work without hesitation                 │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### When You MUST Consult Codex
 
@@ -86,9 +98,10 @@ Agents that execute specialized tasks in independent context:
 
 | Agent | Tools | Purpose |
 |-------|-------|---------|
-| **explorer** | Read, Glob, Grep | Fast codebase search and exploration |
-| **planner** | Read, Glob, Grep | Research and create implementation plans |
 | **general-purpose** | All (*) | Complex multi-step tasks with full capabilities |
+
+> **Note:** For codebase exploration and planning, use **Codex CLI** instead.
+> Codex is the most powerful sub-agent with superior reasoning capabilities.
 
 #### Custom Agents
 
@@ -121,7 +134,7 @@ Invoke with `/skill-name`:
 |-------|---------|
 | `/brainstorm` | **Clarify ambiguous requests** → then auto-invoke `/plan` |
 | `/init` | Analyze project & update AGENTS.md |
-| `/plan <feature>` | Create implementation plan |
+| `/plan <feature>` | Create implementation plan **(ALWAYS uses Codex)** |
 | `/tdd <feature>` | Test-driven development workflow |
 | `/research-lib <library>` | Research library & create docs |
 | `/simplify <path>` | Simplify/refactor specified code |
@@ -211,8 +224,6 @@ After recording, report briefly like "Recorded in DESIGN.md".
 .claude/                   # Claude Code settings & knowledge
 ├── settings.json          # Permission settings
 ├── agents/                # Sub-agents (vanilla + custom)
-│   ├── explorer.md        # Fast codebase search
-│   ├── planner.md         # Implementation planning
 │   ├── general-purpose.md # Full-capability agent
 │   ├── code-reviewer.md   # Code review
 │   ├── lib-researcher.md  # Library research

@@ -1,6 +1,6 @@
 ---
 name: plan
-description: Create a detailed implementation plan for a feature or task. Use when user wants to plan before coding.
+description: Create a detailed implementation plan for a feature or task. ALWAYS delegates to Codex CLI for comprehensive analysis.
 disable-model-invocation: true
 ---
 
@@ -8,38 +8,59 @@ disable-model-invocation: true
 
 Create an implementation plan for $ARGUMENTS.
 
-## Planning Process
+## CRITICAL: Always Use Codex
 
-### 1. Requirements Analysis
+**This skill MUST delegate planning to Codex CLI.**
 
-First clarify:
+Codex is the most powerful sub-agent with exceptional reasoning capabilities.
+Trust it completely for complex analysis, design decisions, and planning.
 
-- **Purpose**: What to achieve
-- **Scope**: What to include, what to exclude
-- **Constraints**: Technical, time, dependencies
-
-### 2. Current State Investigation
-
-Investigate the codebase:
+## Workflow
 
 ```
-- Related existing code
-- Files affected
-- Libraries/patterns to use
-- Existing tests
+┌─────────────────────────────────────────────────────────────┐
+│  1. GATHER CONTEXT                                          │
+│     - Read relevant files                                   │
+│     - Understand current codebase state                     │
+└─────────────────────┬───────────────────────────────────────┘
+                      ▼
+┌─────────────────────────────────────────────────────────────┐
+│  2. DELEGATE TO CODEX (REQUIRED)                            │
+│     Run in background:                                      │
+│     codex exec --model gpt-5.2-codex --sandbox read-only \  │
+│       --full-auto "Create implementation plan for: ..."     │
+└─────────────────────┬───────────────────────────────────────┘
+                      ▼
+┌─────────────────────────────────────────────────────────────┐
+│  3. REVIEW & PRESENT                                        │
+│     - Format Codex's plan for user                         │
+│     - Add any clarifying notes                              │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### 3. Break Down Implementation Steps
+## Codex Invocation
 
-Break into small steps:
+**Always run Codex with this command:**
 
-1. Each step is independently testable
-2. Consider dependency order
-3. High-risk steps first
+```bash
+codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "
+Task: Create a detailed implementation plan
 
-### 4. Output Format
+Feature/Task: {$ARGUMENTS}
 
-```markdown
+Context:
+- Project type: {from AGENTS.md}
+- Relevant files: {list discovered files}
+- Current patterns: {existing conventions}
+
+Requirements:
+1. Analyze the codebase thoroughly
+2. Consider all dependencies and impacts
+3. Break into small, testable steps
+4. Identify risks and mitigations
+5. Suggest verification method for each step
+
+Output format:
 ## Implementation Plan: {Title}
 
 ### Purpose
@@ -51,25 +72,34 @@ Break into small steps:
 - Dependencies: {list}
 
 ### Implementation Steps
-
 #### Step 1: {Title}
 - [ ] {Specific task}
-- [ ] {Specific task}
-**Verification**: {Completion criteria for this step}
-
-#### Step 2: {Title}
-...
+**Verification**: {How to verify}
 
 ### Risks & Considerations
-- {Potential issues and mitigations}
-
 ### Open Questions
-- {Items to clarify before implementation}
+" 2>/dev/null
 ```
+
+## Why Codex?
+
+| Aspect | Codex Advantage |
+|--------|-----------------|
+| **Analysis depth** | Comprehensive codebase understanding |
+| **Pattern recognition** | Identifies existing conventions |
+| **Risk assessment** | Thorough consideration of edge cases |
+| **Step breakdown** | Optimal task decomposition |
+| **Consistency** | Aligned with project standards |
 
 ## Notes
 
-- Plans should be at actionable granularity
-- Include verification method for each step
-- Ask questions at planning stage for unclear points
-- Don't over-detail (adjust during implementation)
+- **Never skip Codex** - It's mandatory for this skill
+- Run Codex in background (`run_in_background: true`) for efficiency
+- Wait for Codex response before presenting to user
+- If Codex is unavailable, inform user and suggest retry
+
+## Language
+
+- **Codex prompt**: English
+- **Codex response**: English
+- **User presentation**: Japanese
