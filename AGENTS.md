@@ -82,6 +82,16 @@ Available for both Claude Code and Codex CLI.
 
 Agents that execute specialized tasks in independent context:
 
+#### Vanilla Agents (Built-in)
+
+| Agent | Tools | Purpose |
+|-------|-------|---------|
+| **explorer** | Read, Glob, Grep | Fast codebase search and exploration |
+| **planner** | Read, Glob, Grep | Research and create implementation plans |
+| **general-purpose** | All (*) | Complex multi-step tasks with full capabilities |
+
+#### Custom Agents
+
 | Agent | Purpose | Trigger Examples |
 |-------|---------|------------------|
 | **code-reviewer** | Review after code changes | "review this", "check this" |
@@ -109,6 +119,7 @@ Invoke with `/skill-name`:
 
 | Skill | Purpose |
 |-------|---------|
+| `/brainstorm` | **Clarify ambiguous requests** → then auto-invoke `/plan` |
 | `/init` | Analyze project & update AGENTS.md |
 | `/plan <feature>` | Create implementation plan |
 | `/tdd <feature>` | Test-driven development workflow |
@@ -116,6 +127,8 @@ Invoke with `/skill-name`:
 | `/simplify <path>` | Simplify/refactor specified code |
 | `/update-design` | Update design docs from conversation |
 | `/update-lib-docs` | Update library documentation |
+
+> **Note:** `/brainstorm` collects requirements through questions, then **always** invokes `/plan`.
 
 ### Rules (Always Applied)
 
@@ -197,7 +210,16 @@ After recording, report briefly like "Recorded in DESIGN.md".
 ```
 .claude/                   # Claude Code settings & knowledge
 ├── settings.json          # Permission settings
-├── agents/                # Sub-agents
+├── agents/                # Sub-agents (vanilla + custom)
+│   ├── explorer.md        # Fast codebase search
+│   ├── planner.md         # Implementation planning
+│   ├── general-purpose.md # Full-capability agent
+│   ├── code-reviewer.md   # Code review
+│   ├── lib-researcher.md  # Library research
+│   └── refactorer.md      # Code refactoring
+├── hooks/                 # Hook scripts
+│   ├── check-codex-before-write.py
+│   └── check-codex-after-plan.py
 ├── rules/                 # Always-applied rules
 │   ├── language.md
 │   ├── codex-delegation.md
@@ -211,6 +233,7 @@ After recording, report briefly like "Recorded in DESIGN.md".
 └── skills/                # All skills (auto & user-invoked)
     ├── codex-system/      # Codex CLI collaboration (auto)
     ├── design-tracker/    # Design decision tracking (auto)
+    ├── brainstorm/        # Requirements clarification → plan
     ├── init/              # Project initialization
     ├── plan/              # Implementation planning
     ├── tdd/               # Test-driven development
