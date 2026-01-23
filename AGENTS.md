@@ -1,11 +1,11 @@
 # Project Overview
 
-LLM/Agent Development Project
+LLM/Agent Development Project - Claude Code + Codex CLI Collaboration
 
 ## Language Settings
 
 - **Thinking/Reasoning**: English
-- **Code**: English (variable names, function names, comments, docstrings)
+- **Code**: English (variables, functions, comments, docstrings)
 - **User Communication**: Japanese
 
 ---
@@ -16,19 +16,15 @@ LLM/Agent Development Project
 
 ### When You MUST Consult Codex
 
-Run `codex exec` when you encounter these situations:
-
-| User Says (Japanese) | User Says (English) | Action |
-|---------------------|---------------------|--------|
-| 「どう設計すべき？」「どう実装する？」 | "How should I design/implement this?" | Consult Codex |
-| 「なぜ動かない？」「原因は？」 | "Why doesn't this work?" | Consult Codex |
-| 「どちらがいい？」「比較して」 | "Which is better?" "Compare these" | Consult Codex |
-| 「〜を作りたい」「〜を実装して」 | "I want to build X" "Implement X" | Consult Codex for design first |
-| 「考えて」「分析して」「深く考えて」 | "Think about this" "Analyze" | Consult Codex |
+| Trigger (JA) | Trigger (EN) | Action |
+|--------------|--------------|--------|
+| 「どう設計すべき？」 | "How should I design this?" | Consult Codex |
+| 「なぜ動かない？」 | "Why doesn't this work?" | Consult Codex |
+| 「どちらがいい？」 | "Which is better?" | Consult Codex |
+| 「〜を実装して」 | "Implement X" | Consult Codex for design first |
+| 「分析して」 | "Analyze this" | Consult Codex |
 
 ### How to Consult (Background Execution)
-
-**Always run Codex in background for parallel work:**
 
 ```bash
 # Analysis (read-only) - run with run_in_background: true
@@ -38,225 +34,127 @@ codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "Analyze: {ques
 codex exec --model gpt-5.2-codex --sandbox workspace-write --full-auto "Task: {description}" 2>/dev/null
 ```
 
-**Workflow:**
-1. Start Codex in background → Get task_id
-2. Continue your own work → Don't wait
-3. Retrieve results with `TaskOutput` when needed
-
-**Language protocol:**
-1. Ask Codex in **English**
-2. Receive response in **English**
-3. Execute based on Codex's advice (or let Codex execute)
-4. Report to user in **Japanese**
+**Protocol**: Ask in English → Receive in English → Execute → Report to user in Japanese
 
 ### When NOT to Consult
 
-- Simple file edits, typo fixes
-- Following explicit user instructions
-- git commit, running tests, linting
-- Tasks with obvious single solutions
+Simple edits, explicit instructions, git/test/lint, obvious single solutions
+
+---
+
+## Context Management
+
+**Context degradation is the primary failure mode. Manage it proactively.**
+
+### Commands
+
+| Command | When to Use |
+|---------|-------------|
+| `/clear` | Between unrelated tasks, after completing a feature |
+| `/compact` | When context grows large, before complex tasks |
+
+### Best Practices
+
+- **Clear early, clear often**: Don't let context accumulate irrelevant information
+- **One task, one context**: Complete and clear before starting unrelated work
+- **Pre-task cleanup**: `/compact` before design decisions or complex implementations
+- **Token awareness**: Long contexts degrade Claude's performance
+
+### Memory Persistence
+
+Important information survives `/clear` via documentation:
+
+| When Detected | Record To |
+|---------------|-----------|
+| Design decision | `.claude/docs/DESIGN.md` |
+| Library constraint | `.claude/docs/libraries/{name}.md` |
+| Project rule | This `AGENTS.md` |
 
 ---
 
 ## Tech Stack
 
 - **Language**: Python
-- **Package Manager**: uv (required)
-- **Dev Tools**:
-  - ruff (lint & format)
-  - ty (type check)
-  - poe / poethepoet (task runner)
-  - pytest (testing)
-  - marimo (notebook, optional)
-- **Environment**: venv (via uv)
+- **Package Manager**: uv (required, no pip)
+- **Dev Tools**: ruff, ty, pytest, poe
 - **Main Libraries**: <!-- Add libraries here -->
 
 ---
 
-## Extensions
-
-This project includes the following extensions.
-Available for both Claude Code and Codex CLI.
+## Extensions Summary
 
 ### Agents (Auto-Delegation)
 
-Agents that execute specialized tasks in independent context:
-
-| Agent | Purpose | Trigger Examples |
-|-------|---------|------------------|
-| **code-reviewer** | Review after code changes | "review this", "check this" |
-| **lib-researcher** | Library research & docs | "research this library" |
-| **refactorer** | Refactoring | "simplify this", "clean up" |
+| Agent | Purpose |
+|-------|---------|
+| **code-reviewer** | Review after code changes |
+| **lib-researcher** | Library research & docs |
+| **refactorer** | Simplify/clean up code |
 
 ### Skills
 
-Skills are the primary way to extend Claude Code. All skills are in `.claude/skills/`.
+**Auto-invoked**: `codex-system`, `design-tracker`
 
-#### Auto-Invoked Skills (Proactive)
-
-**IMPORTANT: Use these skills proactively. Don't wait for explicit user request.**
-
-| Skill | When to Use | Invocation |
-|-------|-------------|------------|
-| **codex-system** | **ALWAYS** before design decisions, debugging, planning, trade-off evaluation | Auto or `/codex-system` |
-| **design-tracker** | When design/architecture decisions are made in conversation | Auto or `/design-tracker` |
-
-> **Note:** Codex System details are in the "Codex CLI Integration" section above.
-
-#### User-Invoked Skills (Explicit)
-
-Invoke with `/skill-name`:
-
-| Skill | Purpose |
-|-------|---------|
-| `/init` | Analyze project & update AGENTS.md |
-| `/plan <feature>` | Create implementation plan |
-| `/tdd <feature>` | Test-driven development workflow |
-| `/research-lib <library>` | Research library & create docs |
-| `/simplify <path>` | Simplify/refactor specified code |
-| `/update-design` | Update design docs from conversation |
-| `/update-lib-docs` | Update library documentation |
+**User-invoked**: `/init`, `/plan`, `/tdd`, `/research-lib`, `/simplify`, `/update-design`, `/update-lib-docs`
 
 ### Rules (Always Applied)
 
-Rules to always follow (`.claude/rules/`):
+`language`, `codex-delegation`, `coding-principles`, `dev-environment`, `security`, `testing`
 
-| Rule | Content |
-|------|---------|
-| **language** | Think in English, respond in Japanese |
-| **codex-delegation** | **ALWAYS consult Codex before design/debug/planning decisions** |
-| **coding-principles** | Simplicity, single responsibility, early return, type hints |
-| **dev-environment** | uv, ruff, ty, marimo usage |
-| **security** | Secrets management, input validation, SQLi/XSS prevention |
-| **testing** | TDD, AAA pattern, 80% coverage |
+→ Details in `.claude/rules/`
 
-### Hooks (Automatic Triggers)
-
-Hooks that fire automatically at specific points (`.claude/settings.json`):
+### Hooks (Automatic)
 
 | Hook | Trigger | Purpose |
 |------|---------|---------|
-| **PreToolUse (Edit\|Write)** | Before file modifications | Remind to consult Codex for design decisions |
-| **PostToolUse (Task)** | After Plan/design tasks | Suggest Codex review for implementation plans |
-
-> **Note:** Hooks add context reminders but don't block operations. They reinforce the Codex consultation workflow.
-
----
-
-## Documentation Reference
-
-Design decisions, architecture, implementation:
-- `.claude/docs/DESIGN.md`
-
-Library features, constraints, patterns:
-- `.claude/docs/libraries/`
-
-Coding rules (always applied):
-- `.claude/rules/`
-
-## Memory Management (Automatic)
-
-**Record important information automatically. Don't wait for user to say "remember this".**
-
-When these occur during conversation, record immediately:
-
-| When Detected | Record To | Example |
-|---------------|-----------|---------|
-| Design/policy decision | `.claude/docs/DESIGN.md` | "Let's use ReAct pattern" |
-| Library constraint found | `.claude/docs/libraries/{name}.md` | "This API is async only" |
-| Project-specific rule | This `AGENTS.md` | "Output errors in Japanese" |
-
-After recording, report briefly like "Recorded in DESIGN.md".
-
----
-
-## Development Guidelines
-
-### Coding Principles
-- **Simplicity first** - Choose readable code over complex
-- **Single responsibility** - One function/class does one thing
-- **Early return** - Keep nesting shallow
-- **Type hints required** - All functions need annotations
-- **Code in English** - Variables, functions, comments, docstrings
-
-### Library Management
-- **Use uv** (direct pip usage prohibited)
-- Manage dependencies in `pyproject.toml`
-- Document library features/constraints in `.claude/docs/libraries/`
-- Watch for inter-library dependencies/conflicts
-
-### Information Gathering
-- **Use web search for latest info** - Always verify library specs, best practices
-- Reference official docs, GitHub Issues, Discussions
-- Don't guess - always investigate unclear points
+| SessionStart | Session begins | Context initialization |
+| UserPromptSubmit | Prompt submitted | Secrets detection, Codex suggestion |
+| PreToolUse (Bash) | Before Bash | Dangerous command blocking |
+| PreToolUse (Edit/Write) | Before file changes | Design decision reminder |
+| PostToolUse (Task) | After planning | Codex review suggestion |
 
 ---
 
 ## Directory Structure
 
 ```
-.claude/                   # Claude Code settings & knowledge
-├── settings.json          # Permission settings
-├── agents/                # Sub-agents
-├── rules/                 # Always-applied rules
-│   ├── language.md
-│   ├── codex-delegation.md
-│   ├── coding-principles.md
-│   ├── dev-environment.md
-│   ├── security.md
-│   └── testing.md
-├── docs/                  # Knowledge base (actual)
-│   ├── DESIGN.md          # Design document
-│   └── libraries/         # Library documentation
-└── skills/                # All skills (auto & user-invoked)
-    ├── codex-system/      # Codex CLI collaboration (auto)
-    ├── design-tracker/    # Design decision tracking (auto)
-    ├── init/              # Project initialization
-    ├── plan/              # Implementation planning
-    ├── tdd/               # Test-driven development
-    ├── research-lib/      # Library research
-    ├── simplify/          # Code simplification
-    ├── update-design/     # Design doc update
-    └── update-lib-docs/   # Library doc update
+.claude/
+├── settings.json      # Hooks & permissions
+├── rules/             # Coding rules (always applied)
+├── agents/            # Sub-agents
+├── skills/            # Workflows
+├── hooks/             # Hook scripts
+└── docs/
+    ├── DESIGN.md      # Design decisions
+    └── libraries/     # Library documentation
 
-.codex/                    # Codex CLI settings
-├── AGENTS.md              # Global instructions (copy to ~/.codex/)
-├── config.toml            # Skills enabled, features
-└── skills/
-    └── context-loader/    # Load .claude/ context at task start
+.codex/
+├── AGENTS.md          # Codex global instructions
+├── config.toml        # Features config
+└── skills/            # Codex skills
 
-src/                       # Source code
-tests/                     # Tests
+src/                   # Source code
+tests/                 # Tests
 ```
 
 ## Common Commands
 
 ```bash
-# Project init (uv required)
-uv init
-uv venv
-source .venv/bin/activate  # Linux/Mac
-
 # Dependencies
-uv add <package>           # Add package
-uv add --dev <package>     # Add dev dependency
-uv sync                    # Sync dependencies
+uv add <package>
+uv sync
 
-# Task execution (poethepoet)
-poe lint                   # ruff check + format
-poe test                   # Run pytest
-poe typecheck              # Run ty
-poe all                    # Run all checks
-
-# Individual execution
-uv run ruff check .
-uv run ruff format .
-uv run ty check src/
-uv run pytest -v --tb=short
+# Quality (via poe)
+poe lint          # ruff check + format
+poe test          # pytest
+poe typecheck     # ty
+poe all           # all checks
 ```
+
+---
 
 ## Notes
 
-- Manage API keys via environment variables (don't commit `.env`)
-- Watch token consumption (especially long contexts)
-- Implement retry logic for rate limits
+- API keys via environment variables (never commit `.env`)
+- Watch token consumption
+- Retry logic for rate limits
