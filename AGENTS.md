@@ -58,6 +58,70 @@ codex exec --model gpt-5.2-codex --sandbox workspace-write --full-auto "Task: {d
 
 ---
 
+## Gemini CLI Integration (Research & Multimodal)
+
+**Gemini CLI is your research specialist with massive context and multimodal capabilities.**
+
+### Gemini vs Codex: Choose the Right Tool
+
+| Task | Codex | Gemini |
+|------|-------|--------|
+| Design decisions, debugging | ✓ | |
+| Code implementation | ✓ | |
+| Large codebase understanding | | ✓ |
+| Pre-implementation research | | ✓ |
+| Latest docs/library research | | ✓ |
+| Video/Audio/PDF analysis | | ✓ |
+
+### When You MUST Consult Gemini
+
+Run `gemini -p` when you encounter these situations:
+
+| User Says (Japanese) | User Says (English) | Action |
+|---------------------|---------------------|--------|
+| 「調べて」「リサーチして」 | "Research" "Investigate" | Consult Gemini |
+| 「このPDF/動画/音声を見て」 | "Analyze this PDF/video/audio" | Consult Gemini |
+| 「コードベース全体を理解して」 | "Understand entire codebase" | Consult Gemini |
+| 「最新のドキュメントを確認して」 | "Check latest documentation" | Consult Gemini |
+
+### How to Consult (Background Execution)
+
+**Always run Gemini in background for parallel work:**
+
+```bash
+# Research (headless mode) - run with run_in_background: true
+gemini -p "Research: {question}" 2>/dev/null
+
+# Codebase analysis - run with run_in_background: true
+gemini -p "Analyze: {aspect}" --include-directories src,lib 2>/dev/null
+
+# Multimodal (PDF/video/audio) - run with run_in_background: true
+gemini -p "Extract: {what}" < /path/to/file.pdf 2>/dev/null
+
+# JSON output for structured data
+gemini -p "List: {what}" --output-format json 2>/dev/null
+```
+
+**Workflow:**
+1. Start Gemini in background → Get task_id
+2. Continue your own work → Don't wait
+3. Retrieve results with `Read` tool on output file
+
+**Language protocol:**
+1. Ask Gemini in **English**
+2. Receive response in **English**
+3. Synthesize and apply findings
+4. Report to user in **Japanese**
+
+### When NOT to Consult Gemini
+
+- Design decisions (use Codex instead)
+- Debugging (use Codex instead)
+- Code implementation (use Codex instead)
+- Simple file operations
+
+---
+
 ## Tech Stack
 
 - **Language**: Python
@@ -99,6 +163,7 @@ Skills are the primary way to extend Claude Code. All skills are in `.claude/ski
 | Skill | When to Use | Invocation |
 |-------|-------------|------------|
 | **codex-system** | **ALWAYS** before design decisions, debugging, planning, trade-off evaluation | Auto or `/codex-system` |
+| **gemini-system** | **ALWAYS** for research, large codebase analysis, multimodal (video/audio/PDF) tasks | Auto or `/gemini-system` |
 | **design-tracker** | When design/architecture decisions are made in conversation | Auto or `/design-tracker` |
 
 > **Note:** Codex System details are in the "Codex CLI Integration" section above.
@@ -125,6 +190,7 @@ Rules to always follow (`.claude/rules/`):
 |------|---------|
 | **language** | Think in English, respond in Japanese |
 | **codex-delegation** | **ALWAYS consult Codex before design/debug/planning decisions** |
+| **gemini-delegation** | **ALWAYS consult Gemini for research/multimodal/large codebase tasks** |
 | **coding-principles** | Simplicity, single responsibility, early return, type hints |
 | **dev-environment** | uv, ruff, ty, marimo usage |
 | **security** | Secrets management, input validation, SQLi/XSS prevention |
@@ -201,6 +267,7 @@ After recording, report briefly like "Recorded in DESIGN.md".
 ├── rules/                 # Always-applied rules
 │   ├── language.md
 │   ├── codex-delegation.md
+│   ├── gemini-delegation.md
 │   ├── coding-principles.md
 │   ├── dev-environment.md
 │   ├── security.md
@@ -210,6 +277,7 @@ After recording, report briefly like "Recorded in DESIGN.md".
 │   └── libraries/         # Library documentation
 └── skills/                # All skills (auto & user-invoked)
     ├── codex-system/      # Codex CLI collaboration (auto)
+    ├── gemini-system/     # Gemini CLI collaboration (auto)
     ├── design-tracker/    # Design decision tracking (auto)
     ├── init/              # Project initialization
     ├── plan/              # Implementation planning
@@ -218,6 +286,10 @@ After recording, report briefly like "Recorded in DESIGN.md".
     ├── simplify/          # Code simplification
     ├── update-design/     # Design doc update
     └── update-lib-docs/   # Library doc update
+
+.gemini/                   # Gemini CLI settings
+├── GEMINI.md              # Context file for Gemini
+└── settings.json          # Gemini CLI configuration
 
 .codex/                    # Codex CLI settings
 ├── AGENTS.md              # Global instructions (copy to ~/.codex/)
