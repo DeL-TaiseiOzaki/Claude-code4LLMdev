@@ -12,118 +12,133 @@ metadata:
 
 # Gemini System — Research & Multimodal Specialist
 
-**Gemini CLI is your research specialist with massive context and multimodal capabilities.**
+**Gemini CLI (gemini-3-pro-preview) is your research specialist with 1M token context.**
 
-> **Full details:** See "Gemini CLI Integration" section in AGENTS.md
+## Gemini vs Codex
 
-## Gemini vs Codex: When to Use Which
+| Task | Gemini | Codex |
+|------|--------|-------|
+| **リポジトリ全体理解** | ✓ | |
+| **ライブラリ調査** | ✓ | |
+| **マルチモーダル (PDF/動画/音声)** | ✓ | |
+| **最新ドキュメント検索** | ✓ | |
+| **設計判断** | | ✓ |
+| **デバッグ** | | ✓ |
+| **コード実装** | | ✓ |
 
-| Use Case | Codex | Gemini |
-|----------|-------|--------|
-| Design decisions, debugging | ✓ | |
-| Complex reasoning, code implementation | ✓ | |
-| Large codebase understanding | | ✓ |
-| Pre-implementation research | | ✓ |
-| Google Search for latest info | | ✓ |
-| Video/Audio/PDF analysis | | ✓ |
-| Documentation comprehension | | ✓ |
+## When to Consult (MUST)
 
-## Gemini's Strengths
+| Situation | Trigger Examples |
+|-----------|------------------|
+| **Research** | 「調べて」「リサーチ」 / "Research" "Investigate" |
+| **Library docs** | 「ライブラリ」「ドキュメント」 / "Library" "Docs" |
+| **Codebase analysis** | 「コードベース全体」 / "Entire codebase" |
+| **Multimodal** | 「PDF」「動画」「音声」 / "PDF" "Video" "Audio" |
 
-- **1M token context window** — Analyze entire repositories at once
-- **Google Search grounding** — Access latest information and documentation
-- **Multimodal** — Process videos, audio files, PDFs natively
-- **Fast exploration** — Quick overview before deep analysis
+## When NOT to Consult
 
-## Quick Reference
+- Design decisions (use Codex)
+- Debugging (use Codex)
+- Code implementation (use Codex)
+- Simple file operations (do directly)
 
-### When to Consult Gemini
+## How to Consult
 
-| Situation | Action |
-|-----------|--------|
-| Need to understand large codebase | **MUST** consult |
-| Research before implementation | **MUST** consult |
-| Analyze video/audio/PDF | **MUST** consult |
-| Find latest library docs/examples | **MUST** consult |
-| Quick web research | **SHOULD** consult |
-| Code implementation, design decisions | Use Codex instead |
+### Background Execution (Recommended)
 
-### How to Consult (Background Execution)
-
-**Always use `run_in_background: true`:**
+Always use `run_in_background: true` for parallel work:
 
 ```bash
-# Research / Analysis (read-only, headless mode)
-gemini -p "Research: {question}" --output-format json 2>/dev/null
+# Research
+gemini -p "Research: {question}" 2>/dev/null
 
-# Codebase understanding (include directories)
-gemini -p "Analyze codebase structure and explain: {aspect}" --include-directories src,lib 2>/dev/null
+# Codebase analysis
+gemini -p "Analyze: {aspect}" --include-directories src,lib 2>/dev/null
 
-# Multimodal analysis
-gemini -p "Analyze this file and explain: {question}" < /path/to/file.pdf 2>/dev/null
+# Multimodal (PDF/video/audio)
+gemini -p "Extract: {what}" < /path/to/file.pdf 2>/dev/null
 
-# With Google Search grounding
-gemini -p "Search and summarize: {topic} latest best practices 2025" 2>/dev/null
+# Latest docs search
+gemini -p "Search latest {library} docs 2025" 2>/dev/null
 ```
 
 ### Workflow
 
-1. **Start Gemini** (background) → Get task_id
+1. **Start Gemini** in background → Get task_id
 2. **Continue your work** → Don't wait
 3. **Retrieve results** → Use `Read` tool on output file
+4. **Save to docs** → `.claude/docs/research/{topic}.md`
 
-### Language Protocol
+## Language Protocol
 
 1. Ask Gemini in **English**
 2. Receive response in **English**
 3. Synthesize and apply findings
 4. Report to user in **Japanese**
 
-## Common Patterns
+## Output Location
 
-### Pattern 1: Pre-Implementation Research
+Save Gemini research results to:
+```
+.claude/docs/research/{topic}.md
+```
+
+This allows Claude and Codex to reference the research later.
+
+## Task Templates
+
+### Pre-Implementation Research
 
 ```bash
-gemini -p "Research the best practices for implementing {feature} in Python.
+gemini -p "Research best practices for {feature} in Python 2025.
 Include:
 - Common patterns and anti-patterns
-- Library recommendations
+- Library recommendations (with comparison)
 - Performance considerations
-- Security concerns" 2>/dev/null
+- Security concerns
+- Code examples" 2>/dev/null
 ```
 
-### Pattern 2: Large Codebase Analysis
+### Repository Analysis
 
 ```bash
-gemini -p "Analyze this repository structure and provide:
-1. High-level architecture overview
-2. Key modules and their responsibilities
+gemini -p "Analyze this repository:
+1. Architecture overview
+2. Key modules and responsibilities
 3. Data flow between components
-4. Entry points and main execution paths" --include-directories . 2>/dev/null
+4. Entry points and extension points
+5. Existing patterns to follow" --include-directories . 2>/dev/null
 ```
 
-### Pattern 3: Multimodal Data Processing
+### Library Research
+
+See: `references/lib-research-task.md`
+
+### Multimodal Analysis
 
 ```bash
-# Video analysis
-gemini -p "Analyze this video and describe:
-- Main content and key points
-- Technical concepts demonstrated
-- Timestamps of important sections" < demo.mp4 2>/dev/null
+# Video
+gemini -p "Analyze video: main concepts, key points, timestamps" < tutorial.mp4 2>/dev/null
 
-# PDF documentation
-gemini -p "Extract and summarize:
-- API specifications
-- Configuration options
-- Usage examples" < api-docs.pdf 2>/dev/null
+# PDF
+gemini -p "Extract: API specs, examples, constraints" < api-docs.pdf 2>/dev/null
+
+# Audio
+gemini -p "Transcribe and summarize: decisions, action items" < meeting.mp3 2>/dev/null
 ```
 
-### Pattern 4: Latest Documentation Search
+## Integration with Codex
 
-```bash
-gemini -p "Search for the latest {library} documentation (2025).
-Find:
-- Breaking changes from previous versions
-- New recommended patterns
-- Migration guides if applicable" 2>/dev/null
-```
+| Workflow | Steps |
+|----------|-------|
+| **New feature** | Gemini research → Codex design review |
+| **Library choice** | Gemini comparison → Codex decision |
+| **Bug investigation** | Gemini codebase search → Codex debug |
+
+## Why Gemini?
+
+- **1M token context**: Entire repositories at once
+- **Google Search**: Latest information and docs
+- **Multimodal**: Native PDF/video/audio processing
+- **Fast exploration**: Quick overview before deep work
+- **Shared context**: Results saved for Claude/Codex

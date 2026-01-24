@@ -1,14 +1,24 @@
 {
+  "model": {
+    "name": "gemini-3-pro-preview"
+  },
   "context": {
     "fileName": ["GEMINI.md", "AGENTS.md"],
     "discoveryMaxDirs": 200,
-    "respectGitIgnore": true,
-    "respectGeminiIgnore": true
+    "fileFiltering": {
+      "respectGitIgnore": true,
+      "respectGeminiIgnore": true
+    }
   },
-  "model": {
-    "default": "gemini-2.5-pro"
+  "tools": {
+    "sandbox": false,
+    "autoAccept": false
   },
-  "sandbox": {
-    "enabled": false
+  "experimental": {
+    "skills": true,
+    "enableAgents": true
+  },
+  "skills": {
+    "disabled": []
   }
 }
